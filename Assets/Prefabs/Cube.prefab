@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 5259850975699500648}
   - component: {fileID: 3997586683227054075}
   - component: {fileID: 4117411077834555133}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: InstantiatedVirtualObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,7 +50,7 @@ MeshRenderer:
   m_GameObject: {fileID: 3394858228891134637}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
