@@ -55,5 +55,13 @@ namespace VirtualObjects
             Object.Destroy(currentlySelected);
             currentlySelected = null;
         }
+
+        public void SetSelectedObjectMaterial(Material material)
+        {
+            if (currentlySelected is null)
+                return;
+
+            currentlySelected.GetComponent<Renderer>().material = material;
+        }
     }
 }

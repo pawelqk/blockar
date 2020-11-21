@@ -30,5 +30,10 @@ namespace Controls
         {
             virtualObjectsManager.DeleteSelectedObject();
         }
+
+        public void HandleMaterialChange(Material material)
+        {
+            virtualObjectsManager.SetSelectedObjectMaterial(material);
+        }
     }
 }

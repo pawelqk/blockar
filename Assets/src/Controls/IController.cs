@@ -6,6 +6,7 @@ namespace Controls
     {
         void HandleObjectSelection(GameObject gameObject);
         void HandleSelectedObjectDeletion();
+        void HandleMaterialChange(Material material);
         void HandleNonUITouch();
     }
 }
