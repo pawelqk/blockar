@@ -6,6 +6,9 @@ namespace Controls
     {
         void HandleObjectSelection(GameObject gameObject);
         void HandleSelectedObjectDeletion();
+        void HandleSelectedObjectMaterialChange();
+        void HandleEdgesToggle(bool edgesOn);
+        void HandleBrickTexture(bool brickTextureOn);
         void HandleNonUITouch();
     }
 }

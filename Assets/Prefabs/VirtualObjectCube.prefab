@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3997586683227054075}
   - component: {fileID: 4117411077834555133}
   m_Layer: 8
-  m_Name: Cube
+  m_Name: VirtualObjectCube
   m_TagString: InstantiatedVirtualObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -60,6 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 8c7319a30a6256f4bbc46c045d497edf, type: 2}
   - {fileID: 2100000, guid: 7b552c016aef2af448eb77632453ce2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0

@@ -55,5 +55,15 @@ namespace VirtualObjects
             Object.Destroy(currentlySelected);
             currentlySelected = null;
         }
+
+        public GameObject GetCurrentlySelected()
+        {
+            return currentlySelected;
+        }
+
+        public Dictionary<int, GameObject> GetGameObjects()
+        {
+            return objects;
+        }
     }
 }
