@@ -15,7 +15,6 @@ namespace Materials
                 var material = LoadMaterial(path);
                 if (material)
                     materials.Add(material.name, material);
-                Debug.LogError("##!! Material name " + material.name + " is invalid.");
             }
             return materials;
         }
@@ -29,7 +28,7 @@ namespace Materials
             }
 
             var material = Resources.Load<Material>(path);
-            if (!material)
+            if (material is null)
             {
                 Debug.LogError("Couldn't load " + path + " material.");
             }

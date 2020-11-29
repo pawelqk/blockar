@@ -46,9 +46,7 @@ namespace Controls
         {
             var materials = materialManager.GetMaterials();
             var materialBrick = materials["BrickTexture"];
-            Debug.Log("##!! Founded: " + materialBrick.name);
             var materialCube = materials["CubeDemo"];
-            Debug.Log("##!! Founded: " + materialCube.name);
             if (brickTextureOn)
                 materialManager.ChangeSelectedMaterial(materialBrick);
             else
