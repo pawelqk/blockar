@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using VirtualObjects;
 using UI;
+using Materials;
 
 [RequireComponent(typeof(ARRaycastManager))]
 public class MasterScript : MonoBehaviour
@@ -13,6 +14,7 @@ public class MasterScript : MonoBehaviour
     private readonly Logger logger = new Logger(Debug.unityLogger);
     private ARRaycastManager arRaycastmanager;
     private VirtualObjectsManager virtualObjectsManager;
+    private MaterialManager materialManager;
     private IUIControls uiControls;
     private IController controller;
     private PlaneTouchHandler planeTouchHandler;
@@ -33,8 +35,9 @@ public class MasterScript : MonoBehaviour
     {
         arRaycastmanager = GetComponent<ARRaycastManager>();
         virtualObjectsManager = new VirtualObjectsManager(gameObjectToInstantiate, logger);
+        materialManager = new MaterialManager(gameObjectToInstantiate);
         uiControls = new UIControls();
-        controller = new MasterController(virtualObjectsManager, uiControls);
+        controller = new MasterController(virtualObjectsManager, materialManager, uiControls);
         uiControls.SetController(controller);
         planeTouchHandler = new PlaneTouchHandler(virtualObjectsManager, controller);
         virtualObjectTouchHandler = new VirtualObjectTouchHandler(virtualObjectsManager, controller);

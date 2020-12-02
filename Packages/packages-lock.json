@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.google.ar.core.arfoundation.extensions": {
-      "version": "file:C:/workspace/unity/ar_core_unity_extension/package",
+      "version": "file:C:/Users/Arfree/Desktop/package",
       "depth": 0,
       "source": "local",
       "dependencies": {

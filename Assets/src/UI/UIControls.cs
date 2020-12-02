@@ -8,10 +8,12 @@ namespace UI
     {
         private IController controller;
         private SelectionContextMenuUIHandler selectionContextMenuUIHandler;
+        private MainUIHandler mainUIHandler;
 
         public UIControls()
         {
             this.selectionContextMenuUIHandler = new SelectionContextMenuUIHandler(controller);
+            this.mainUIHandler = new MainUIHandler(controller);
         }
 
         public void HandleGameObjectSelection(GameObject selectedGameObject)
@@ -28,6 +30,7 @@ namespace UI
         {
             this.controller = controller;
             this.selectionContextMenuUIHandler.Controller = controller;
+            this.mainUIHandler.Controller = controller;
         }
     }
 }

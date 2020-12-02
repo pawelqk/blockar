@@ -9,6 +9,7 @@ namespace UI
     {
         private IController controller;
         private GameObject menuPanel;
+        private Button changeTextureButton;
         private Button deleteObjectButton;
         private Button hideMenuButton;
 
@@ -18,12 +19,14 @@ namespace UI
             menuPanel = GameObject.Find("CubeContextMenuPanel");
             deleteObjectButton = GameObject.Find("DeleteObjectButton").GetComponent<Button>();
             hideMenuButton = GameObject.Find("HideMenuButton").GetComponent<Button>();
+            changeTextureButton = GameObject.Find("ChangeTextureButton").GetComponent<Button>();
             HideContextMenu();
             RegisterCallbacks();
         }
 
         private void RegisterCallbacks()
         {
+            changeTextureButton.onClick.AddListener(this.OnChangeTextureButtonClick);
             deleteObjectButton.onClick.AddListener(this.OnDeleteObjectButtonClick);
             hideMenuButton.onClick.AddListener(this.OnHideMenuButtonClick);
         }
@@ -36,6 +39,12 @@ namespace UI
 
         private void OnHideMenuButtonClick()
         {
+            HideContextMenu();
+        }
+
+        private void OnChangeTextureButtonClick()
+        {
+            controller.HandleSelectedObjectMaterialChange();
             HideContextMenu();
         }
 
