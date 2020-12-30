@@ -44,8 +44,8 @@ namespace UI
 
         private void OnChangeTextureButtonClick()
         {
-            controller.HandleSelectedObjectMaterialChange();
             HideContextMenu();
+            controller.HandleSelectedObjectMaterialChange();
         }
 
         public IController Controller { set => controller = value; }

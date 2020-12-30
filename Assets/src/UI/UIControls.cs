@@ -32,5 +32,15 @@ namespace UI
             this.selectionContextMenuUIHandler.Controller = controller;
             this.mainUIHandler.Controller = controller;
         }
+
+        public void HandlePlaneHold()
+        {
+            mainUIHandler.ShowPlaneContextMenu();
+        }
+
+        public void HandleTextureMenu()
+        {
+            mainUIHandler.ShowTextureContextMenu();
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace Controls.Detection
 
             lastTouch = Input.GetTouch(0);
             logger.Log("CheckForTouch()", String.Format("lastTouch: {0}", ((Touch)lastTouch).phase));
- 
+
             return true;
         }
 
@@ -200,7 +200,7 @@ namespace Controls.Detection
         private bool TryToResolvePlaneHold()
         {
             logger.Log("TryToResolvePlaneHold", "hold resolved");
-            // at the moment ignore plane hold
+            planeTouchHandler.OnPlaneHold();
             return true;
         }
 
@@ -252,7 +252,7 @@ namespace Controls.Detection
                     case TouchPhase.Canceled:
                     default:
                         context.logger.LogWarning(
-                            "SNoTouch::HandleTouch", 
+                            "SNoTouch::HandleTouch",
                             String.Format("TouchPhase: {0} was unexpected in this state. Ignoring it.", touch.phase)
                         );
                         break;

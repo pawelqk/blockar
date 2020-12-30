@@ -8,5 +8,7 @@ namespace Controller.UI
         void HandleGameObjectSelection(GameObject selectedGameObject);
         void SetController(IController controller);
         void HideContextMenus();
+        void HandlePlaneHold();
+        void HandleTextureMenu();
     }
 }

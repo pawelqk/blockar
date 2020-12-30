@@ -2,6 +2,8 @@
 using Materials;
 using UnityEngine;
 using VirtualObjects;
+using System.Collections.Generic;
+using System;
 
 namespace Controls
 {
@@ -37,26 +39,35 @@ namespace Controls
 
         public void HandleSelectedObjectMaterialChange()
         {
-            var gameObject = virtualObjectsManager.GetCurrentlySelected();
-            materialManager.ChangeGameObjectMaterial(gameObject);
+            // At this point the menu with textures should appear.
+            // After the texture selection it will be applied to the object, that was selected
+            uiControls.HandleTextureMenu();
         }
 
-        // Dummy function for presentation purposes only. Will be replaced during implementation of new textures.
-        public void HandleBrickTexture(bool brickTextureOn)
+        public void HandleTextureChange(string buttonText)
         {
+
+            string materialName = buttonText.ToLower().Replace(" ", "_");
             var materials = materialManager.GetMaterials();
-            var materialBrick = materials["BrickTexture"];
-            var materialCube = materials["CubeDemo"];
-            if (brickTextureOn)
-                materialManager.ChangeSelectedMaterial(materialBrick);
-            else
-                materialManager.ChangeSelectedMaterial(materialCube);
+            var material = materials[materialName];
+            var gameObject = virtualObjectsManager.GetCurrentlySelected();
+            if (gameObject is null){
+                materialManager.ChangeSelectedMaterial(material);
+                return;
+            }
+            materialManager.SetGameObjectMaterial(gameObject, material);
         }
 
-        public void HandleEdgesToggle(bool edgesOn)
+        public void HandleEdgesClick()
         {
             var gameObjects = virtualObjectsManager.GetGameObjects();
-            materialManager.SetEdgesVisibility(edgesOn, gameObjects);
+            materialManager.SetEdgesVisibility(gameObjects);
+        }
+
+        public void HandlePlaneHold()
+        {
+            uiControls.HandlePlaneHold();
+            
         }
     }
 }
