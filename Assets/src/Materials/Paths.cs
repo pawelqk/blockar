@@ -6,11 +6,13 @@ namespace Materials
     {
         public static readonly List<string> MATERIAL_PATHS = new List<string>()
         {
-            "Materials/CubeDemo",
-            "Materials/BrickTexture"
+            "Materials/basic",
+            "Materials/brick",
+            "Materials/wood",
+            "Materials/stars"
         };
 
-        public const string EDGES_MATERIAL_PATH = "Materials/Edges";
-        public const string INVISIBLE_MATERIAL_PATH = "Materials/Invisible";
+        public const string EDGES_MATERIAL_PATH = "Materials/edges";
+        public const string INVISIBLE_MATERIAL_PATH = "Materials/invisible";
     }
 }

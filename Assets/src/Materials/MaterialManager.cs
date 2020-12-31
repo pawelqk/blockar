@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using VirtualObjects;
+using System;
 
 namespace Materials
 {
@@ -17,6 +18,7 @@ namespace Materials
         private readonly Material edgesMaterial;
         private readonly Material invisibleMaterial;
         private Material selectedMaterial;
+        private bool isEdgesOn = true;
         
         public MaterialManager(GameObject gameObjectToInstantiate)
         {
@@ -27,18 +29,19 @@ namespace Materials
             this.invisibleMaterial = Loader.LoadMaterial(Paths.INVISIBLE_MATERIAL_PATH);
         }
 
-        public void SetEdgesVisibility(bool edgesOn, Dictionary<int, GameObject> gameObjects)
+        public void SetEdgesVisibility(Dictionary<int, GameObject> gameObjects)
         {
+            isEdgesOn = !isEdgesOn;
             foreach (var gameObject in gameObjects.Values)
-                SetGameObjectEdges(gameObject, edgesOn);
-            SetGameObjectEdges(gameObjectToInstantiate, edgesOn);
+                SetGameObjectEdges(gameObject);
+            SetGameObjectEdges(gameObjectToInstantiate);
         }
 
-        private void SetGameObjectEdges(GameObject gameObject, bool edgesOn)
+        private void SetGameObjectEdges(GameObject gameObject)
         {
             var meshRenderer = gameObject.GetComponent<MeshRenderer>();
             var materials = meshRenderer.materials;
-            if (edgesOn)
+            if (isEdgesOn)
                 materials[(int)MaterialsField.Edges] = edgesMaterial;
             else
                 materials[(int)MaterialsField.Edges] = invisibleMaterial;
@@ -51,6 +54,14 @@ namespace Materials
                 return;
             selectedMaterial = material;
             ChangeGameObjectMaterial(gameObjectToInstantiate);
+        }
+
+        public void SetGameObjectMaterial(GameObject gameObject, Material material)
+        {
+            var meshRenderer = gameObject.GetComponent<MeshRenderer>();
+            var materials = meshRenderer.materials;
+            materials[(int)MaterialsField.Main] = material;
+            meshRenderer.materials = materials;
         }
 
         public void ChangeGameObjectMaterial(GameObject gameObject)

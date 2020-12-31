@@ -19,5 +19,10 @@ namespace Controls
             controller.HandleNonUITouch();
             virtualObjectsManager.HandleNewObject(hit.pose);
         }
+
+        public void OnPlaneHold()
+        {
+            controller.HandlePlaneHold();
+        }
     }
 }
