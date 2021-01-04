@@ -10,5 +10,6 @@ namespace Controller.UI
         void HideContextMenus();
         void HandlePlaneHold();
         void HandleTextureMenu();
+        void HandleObjectNotCreated();
     }
 }

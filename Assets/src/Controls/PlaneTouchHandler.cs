@@ -17,7 +17,10 @@ namespace Controls
         public void OnPlaneTouch(ARRaycastHit hit)
         {
             controller.HandleNonUITouch();
-            virtualObjectsManager.HandleNewObject(hit.pose);
+            if (!virtualObjectsManager.HandleNewObject(hit.pose))
+            {
+                controller.HandleObjectNotCreated();
+            }
         }
 
         public void OnPlaneHold()

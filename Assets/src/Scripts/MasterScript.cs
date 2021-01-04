@@ -1,4 +1,4 @@
-﻿using Controller.UI;
+using Controller.UI;
 using Controls;
 using Controls.Detection;
 using UnityEngine;
@@ -13,6 +13,7 @@ public class MasterScript : MonoBehaviour
     [SerializeField] private GameObject gameObjectToInstantiate;
     private readonly Logger logger = new Logger(Debug.unityLogger);
     private ARRaycastManager arRaycastmanager;
+    private LayerMask virtualObjectsLayerMask;
     private VirtualObjectsManager virtualObjectsManager;
     private MaterialManager materialManager;
     private IUIControls uiControls;
@@ -34,9 +35,10 @@ public class MasterScript : MonoBehaviour
     private void Initialize()
     {
         arRaycastmanager = GetComponent<ARRaycastManager>();
-        virtualObjectsManager = new VirtualObjectsManager(gameObjectToInstantiate, logger);
         materialManager = new MaterialManager(gameObjectToInstantiate);
         uiControls = new UIControls();
+        virtualObjectsLayerMask = LayerMask.GetMask("VirtualObjects");
+        virtualObjectsManager = new VirtualObjectsManager(gameObjectToInstantiate, virtualObjectsLayerMask, logger);
         controller = new MasterController(virtualObjectsManager, materialManager, uiControls);
         uiControls.SetController(controller);
         planeTouchHandler = new PlaneTouchHandler(virtualObjectsManager, controller);

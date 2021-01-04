@@ -11,5 +11,6 @@ namespace Controls
         void HandleTextureChange(string buttonText);
         void HandleNonUITouch();
         void HandlePlaneHold();
+        void HandleObjectNotCreated();
     }
 }
