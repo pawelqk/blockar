@@ -1,4 +1,4 @@
-﻿using Controller.UI;
+using Controller.UI;
 using Materials;
 using UnityEngine;
 using VirtualObjects;
@@ -13,7 +13,7 @@ namespace Controls
         private readonly MaterialManager materialManager;
         private readonly IUIControls uiControls;
 
-        public MasterController(VirtualObjectsManager virtualObjectsManager, MaterialManager materialManager, 
+        public MasterController(VirtualObjectsManager virtualObjectsManager, MaterialManager materialManager,
             IUIControls uiControls)
         {
             this.virtualObjectsManager = virtualObjectsManager;
@@ -46,7 +46,6 @@ namespace Controls
 
         public void HandleTextureChange(string buttonText)
         {
-
             string materialName = buttonText.ToLower().Replace(" ", "_");
             var materials = materialManager.GetMaterials();
             var material = materials[materialName];
@@ -67,7 +66,11 @@ namespace Controls
         public void HandlePlaneHold()
         {
             uiControls.HandlePlaneHold();
-            
+        }
+
+        public void HandleObjectNotCreated()
+        {
+            uiControls.HandleObjectNotCreated();
         }
     }
 }

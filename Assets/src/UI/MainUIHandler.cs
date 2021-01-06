@@ -78,6 +78,11 @@ namespace UI
             textureContextMenuPanel.SetActive(false);
         }
 
+        public void HandleObjectNotCreated()
+        {
+            // TODO: implement
+        }
+
         public IController Controller { set => controller = value; }
     }
 }

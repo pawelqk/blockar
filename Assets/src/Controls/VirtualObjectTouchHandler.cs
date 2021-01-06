@@ -17,7 +17,10 @@ namespace Controls
         public void OnVirtualObjectTap(RaycastHit hit)
         {
             controller.HandleNonUITouch();
-            virtualObjectsManager.HandleNewObject(hit);
+            if (!virtualObjectsManager.HandleNewObject(hit))
+            {
+                controller.HandleObjectNotCreated();
+            }
         }
 
         public void OnVirtualObjectHold(RaycastHit hit)

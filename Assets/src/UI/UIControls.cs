@@ -42,5 +42,10 @@ namespace UI
         {
             mainUIHandler.ShowTextureContextMenu();
         }
+
+        public void HandleObjectNotCreated()
+        {
+            mainUIHandler.HandleObjectNotCreated();
+        }
     }
 }
