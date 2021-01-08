@@ -12,5 +12,8 @@ namespace Controls
         void HandleNonUITouch();
         void HandlePlaneHold();
         void HandleObjectNotCreated();
+        void SaveSesson(string sessionName);
+        void RestoreSession(string sessionName);
+        void GetAvailableSessions();
     }
 }

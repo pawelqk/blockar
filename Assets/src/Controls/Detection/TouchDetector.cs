@@ -126,9 +126,9 @@ namespace Controls.Detection
                     return true;
                 }
             }
-
-            logger.Log("IsUIElementTouch()", "NOT UI element touch");
-            return false;
+            var isAnyGameObjSelected = !(EventSystem.current.currentSelectedGameObject is null);
+            logger.Log("IsUIElementTouch()", $"UI element touch: {isAnyGameObjSelected}, currentylSelectedName={EventSystem.current.currentSelectedGameObject?.name}");
+            return isAnyGameObjSelected;
         }
 
         private bool TryToResolvePlaneTap()

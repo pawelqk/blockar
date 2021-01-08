@@ -1,4 +1,5 @@
 ﻿using Controls;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Controller.UI
@@ -10,6 +11,8 @@ namespace Controller.UI
         void HideContextMenus();
         void HandlePlaneHold();
         void HandleTextureMenu();
-        void HandleObjectNotCreated();
+        void ShowShortTimeMsg(string msg);
+        void Update();
+        void PresentSessionsList(IList<string> sessions);
     }
 }
