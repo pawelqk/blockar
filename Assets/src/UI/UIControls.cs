@@ -1,5 +1,6 @@
 ﻿using Controller.UI;
 using Controls;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI
@@ -9,11 +10,18 @@ namespace UI
         private IController controller;
         private SelectionContextMenuUIHandler selectionContextMenuUIHandler;
         private MainUIHandler mainUIHandler;
+        private ShortTimeMsgHandler shortTimeMsgHandler;
 
         public UIControls()
         {
             this.selectionContextMenuUIHandler = new SelectionContextMenuUIHandler(controller);
             this.mainUIHandler = new MainUIHandler(controller);
+            this.shortTimeMsgHandler = new ShortTimeMsgHandler();
+        }
+
+        public void Update()
+        {
+            shortTimeMsgHandler.Update();
         }
 
         public void HandleGameObjectSelection(GameObject selectedGameObject)
@@ -43,9 +51,14 @@ namespace UI
             mainUIHandler.ShowTextureContextMenu();
         }
 
-        public void HandleObjectNotCreated()
+        public void ShowShortTimeMsg(string msg)
         {
-            mainUIHandler.HandleObjectNotCreated();
+            shortTimeMsgHandler.Show(msg);
+        }
+
+        public void PresentSessionsList(IList<string> sessions)
+        {
+            mainUIHandler.ShowSessionsList(sessions);
         }
     }
 }

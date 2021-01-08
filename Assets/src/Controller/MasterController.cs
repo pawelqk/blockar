@@ -1,24 +1,27 @@
-using Controller.UI;
+﻿using Controller.UI;
 using Materials;
-using UnityEngine;
 using VirtualObjects;
-using System.Collections.Generic;
-using System;
+using UnityEngine;
+using System.Linq;
 
 namespace Controls
 {
-    public class MasterController : IController
+    public class MasterController : IController, IDatabaseObserver
     {
         private readonly VirtualObjectsManager virtualObjectsManager;
         private readonly MaterialManager materialManager;
         private readonly IUIControls uiControls;
+        private readonly IDatabase databaseCtrl;
+        private readonly Logger logger;
 
-        public MasterController(VirtualObjectsManager virtualObjectsManager, MaterialManager materialManager,
-            IUIControls uiControls)
+        public MasterController(VirtualObjectsManager virtualObjectsManager, MaterialManager materialManager,  IUIControls uiControls, IDatabase databaseCtrl, Logger logger)
         {
             this.virtualObjectsManager = virtualObjectsManager;
             this.materialManager = materialManager;
             this.uiControls = uiControls;
+            this.databaseCtrl = databaseCtrl;
+            this.logger = logger;
+            this.databaseCtrl.AttachDbObserver(this);
         }
 
         public void HandleNonUITouch()
@@ -59,8 +62,8 @@ namespace Controls
 
         public void HandleEdgesClick()
         {
-            var gameObjects = virtualObjectsManager.GetGameObjects();
-            materialManager.SetEdgesVisibility(gameObjects);
+            var gameObjectsData = virtualObjectsManager.GetGameObjectsData();
+            materialManager.SetEdgesVisibility(gameObjectsData);
         }
 
         public void HandlePlaneHold()
@@ -70,7 +73,71 @@ namespace Controls
 
         public void HandleObjectNotCreated()
         {
-            uiControls.HandleObjectNotCreated();
+            uiControls.ShowShortTimeMsg("Object couldn't be created in that place");
+        }
+
+        public void Notify(DatabaseStatus status)
+        {
+            logger.Log("Notify()", $"status={status}");
+            switch(status)
+            {
+                case DatabaseStatus.actionCurrentlyNotPossible:
+                    uiControls.ShowShortTimeMsg("Action is currently not possible");
+                    break;
+                case DatabaseStatus.saveOngoing:
+                    uiControls.ShowShortTimeMsg("Save ongoing");
+                    break;
+                case DatabaseStatus.saveDone:
+                    uiControls.ShowShortTimeMsg("Save done");
+                    break;
+                case DatabaseStatus.saveError:
+                    uiControls.ShowShortTimeMsg("Save error");
+                    break;
+                case DatabaseStatus.getOngoing:
+                    uiControls.ShowShortTimeMsg("Get data ongoing");
+                    break;
+                case DatabaseStatus.getObjectsDataDone:
+                    uiControls.ShowShortTimeMsg("Get objects data done");
+                    RestoreObjects();
+                    break;
+                case DatabaseStatus.getSessionsListDone:
+                    uiControls.ShowShortTimeMsg("Get sessions list done");
+                    uiControls.PresentSessionsList(databaseCtrl.GetRetrievedSessionsList());
+                    break;
+                case DatabaseStatus.getError:
+                    uiControls.ShowShortTimeMsg("Get data error");
+                    break;
+            }
+        }
+
+        private void RestoreObjects()
+        {
+            var objectsData = databaseCtrl.GetRetrievedObjectsData();
+            var materialsToApply = objectsData.ToDictionary(item => item.Key, item => item.Value.Materials[1]);
+            var materials = materialManager.GetMaterials();
+            virtualObjectsManager.RestoreObjects(objectsData);
+            foreach(var objectData in objectsData.Values)
+            {
+                var gameObj = objectData.GameObject;
+                var mainMaterial = materials[materialsToApply[objectData.Guid]];
+                logger.Log("RestoreObjects()", $"obj={objectData.Guid}, objMaterial={materialsToApply[objectData.Guid]}, mainMaterial={mainMaterial}");
+                materialManager.SetGameObjectMaterial(gameObj, mainMaterial);
+            }
+        }
+
+        public void SaveSesson(string sessionName)
+        {
+            databaseCtrl.SaveToDb(sessionName, virtualObjectsManager.GetGameObjectsData());
+        }
+
+        public void RestoreSession(string sessionName)
+        {
+            databaseCtrl.GetAllFromDb(sessionName);
+        }
+
+        public void GetAvailableSessions()
+        {
+            databaseCtrl.GetSessionsFromDb();
         }
     }
 }

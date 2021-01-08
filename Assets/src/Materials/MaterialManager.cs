@@ -24,16 +24,16 @@ namespace Materials
         {
             this.gameObjectToInstantiate = gameObjectToInstantiate;
             this.materials = Loader.LoadMaterials(Paths.MATERIAL_PATHS);
-            this.selectedMaterial = null;
+            this.selectedMaterial = materials["basic"];
             this.edgesMaterial = Loader.LoadMaterial(Paths.EDGES_MATERIAL_PATH);
             this.invisibleMaterial = Loader.LoadMaterial(Paths.INVISIBLE_MATERIAL_PATH);
         }
 
-        public void SetEdgesVisibility(Dictionary<int, GameObject> gameObjects)
+        public void SetEdgesVisibility(Dictionary<string, VirtualObjectData> objectsData)
         {
             isEdgesOn = !isEdgesOn;
-            foreach (var gameObject in gameObjects.Values)
-                SetGameObjectEdges(gameObject);
+            foreach (var objectData in objectsData.Values)
+                SetGameObjectEdges(objectData.GameObject);
             SetGameObjectEdges(gameObjectToInstantiate);
         }
 

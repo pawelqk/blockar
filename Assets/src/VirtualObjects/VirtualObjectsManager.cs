@@ -5,55 +5,55 @@ namespace VirtualObjects
 {
     public class VirtualObjectsManager
     {
-        private readonly GameObject gameObjectToInstantiate;
-        private LayerMask layerMask;
+        private readonly VirtualObjectsCreator virtualObjectsCreator;
+        private readonly VirtualObjectsStore virtualObjectsStore;
         private readonly Logger logger;
 
-        private readonly Dictionary<int, GameObject> objects;
         private GameObject currentlySelected;
 
-        private static readonly float collisionMargin = 0.001f;
-
-        public VirtualObjectsManager(GameObject gameObjectToInstantiate, LayerMask layerMask, Logger logger)
+        public VirtualObjectsManager(VirtualObjectsCreator virtualObjectsCreator, VirtualObjectsStore virtualObjectsStore, Logger logger)
         {
-            this.gameObjectToInstantiate = gameObjectToInstantiate;
-            this.layerMask = layerMask;
+            this.virtualObjectsCreator = virtualObjectsCreator;
+            this.virtualObjectsStore = virtualObjectsStore;
             this.logger = logger;
+        }
 
-            this.objects = new Dictionary<int, GameObject>();
-            this.currentlySelected = null;
+        public bool HandleNewObject(Transform transform)
+        {
+            var newObjectWithAnchor = virtualObjectsCreator.HandleNewObject(transform);
+            if (newObjectWithAnchor is null)
+                return false;
+
+            virtualObjectsStore.AddObjectToCollection(newObjectWithAnchor.Obj, newObjectWithAnchor.Anchor, null);
+            return true;
         }
 
         public bool HandleNewObject(Pose hitPose)
         {
-            if (IsPoseIntersectingAnyObject(hitPose))
-            {
-                logger.Log("Object will not be created as it overlaps existing object");
+            var newObjectWithAnchor = virtualObjectsCreator.HandleNewObject(hitPose);
+            if (newObjectWithAnchor is null)
                 return false;
-            }
 
-            var newObject = Object.Instantiate(gameObjectToInstantiate, hitPose.position, hitPose.rotation);
-            objects[newObject.GetInstanceID()] = newObject;
+            virtualObjectsStore.AddObjectToCollection(newObjectWithAnchor.Obj, newObjectWithAnchor.Anchor, null);
             return true;
         }
 
         public bool HandleNewObject(RaycastHit hit)
         {
-            var hitObject = hit.collider.gameObject;
-            // oversimplification - assumes that object has the same dimmensions,
-            // for objects other than cube something smart must be figured out
-            var scalingFactor = hitObject.transform.localScale.x;
-            var pos = hitObject.transform.position + scalingFactor * hit.normal;
-            var hitPose = new Pose(pos, hit.transform.rotation);
-            if (IsPoseIntersectingAnyObject(hitPose))
-            {
-                logger.Log("Object will not be created as it overlaps existing object");
+            var newObjectWithAnchor = virtualObjectsCreator.HandleNewObject(hit);
+            if (newObjectWithAnchor is null)
                 return false;
-            }
 
-            var newObject = Object.Instantiate(gameObjectToInstantiate, hitPose.position, hitPose.rotation);
-            objects[newObject.GetInstanceID()] = newObject;
+            virtualObjectsStore.AddObjectToCollection(newObjectWithAnchor.Obj, newObjectWithAnchor.Anchor, hit.collider.gameObject);
             return true;
+        }
+        public void RestoreObjects(IDictionary<string, VirtualObjectData> retrievedObjectsData)
+        {
+            logger.Log("RestoreObjects()", "");
+            foreach (var objectData in retrievedObjectsData)
+                virtualObjectsCreator.CreateFromObjectData(objectData.Value);
+
+            virtualObjectsStore.AddObjectsDataToCollection(retrievedObjectsData);
         }
 
         public GameObject HandleSelection(RaycastHit hit)
@@ -70,10 +70,12 @@ namespace VirtualObjects
         public void DeleteSelectedObject()
         {
             if (currentlySelected is null)
+            {
+                logger.LogWarning("DeleteSelectedObject()", "currentlySelected object is null");
                 return;
+            }
 
-            objects.Remove(currentlySelected.GetInstanceID());
-            Object.Destroy(currentlySelected);
+            virtualObjectsStore.DeleteObject(currentlySelected);
             currentlySelected = null;
         }
 
@@ -82,18 +84,9 @@ namespace VirtualObjects
             return currentlySelected;
         }
 
-        public Dictionary<int, GameObject> GetGameObjects()
+        public Dictionary<string, VirtualObjectData> GetGameObjectsData()
         {
-            return objects;
-        }
-
-        private bool IsPoseIntersectingAnyObject(Pose pose)
-        {
-            var scaledObjectExtents = Vector3.Scale(gameObjectToInstantiate.GetComponent<BoxCollider>().extents, gameObjectToInstantiate.transform.localScale);
-            var objectExtentsWithMargin = scaledObjectExtents - Vector3.one * collisionMargin;
-
-            var hitColliders = Physics.OverlapBox(pose.position, objectExtentsWithMargin, pose.rotation, layerMask);
-            return hitColliders.Length > 0;
+            return virtualObjectsStore.GetAllObjectsData();
         }
     }
 }
