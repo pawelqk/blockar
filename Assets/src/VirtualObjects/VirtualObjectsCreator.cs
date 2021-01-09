@@ -19,14 +19,22 @@ namespace VirtualObjects
         private readonly Logger logger;
 
         private static readonly float collisionMargin = 0.001f;
+        private Vector3 DEFAULT_CUBE_SIZE;
 
 
         public VirtualObjectsCreator(ARAnchorManager anchorManager, GameObject gameObjectToInstantiate, LayerMask layerMask, Logger logger)
         {
             this.anchorManager = anchorManager;
             this.gameObjectToInstantiate = gameObjectToInstantiate;
+            this.DEFAULT_CUBE_SIZE = gameObjectToInstantiate.transform.localScale;
             this.layerMask = layerMask;
             this.logger = logger;
+        }
+
+        public void setCubeSize(int size)
+        {
+            var newCubeSize = DEFAULT_CUBE_SIZE * size;
+            gameObjectToInstantiate.transform.localScale = newCubeSize;
         }
 
         public ObjectWithAnchor HandleNewObject(Transform transform)
@@ -62,7 +70,9 @@ namespace VirtualObjects
         {
             var hitObject = hit.collider.gameObject;
             // oversimplification - assumes that object has the same dimmensions, for objects other than cube something smart must be figured out
+            var gameObjectScaleFactor = gameObjectToInstantiate.transform.localScale.x;
             var scalingFactor = hitObject.transform.localScale.x;
+            scalingFactor = scalingFactor/2 + gameObjectScaleFactor/2;
             var pos = hitObject.transform.position + scalingFactor * hit.normal;
             var hitPose = new Pose(pos, hit.transform.rotation);
 
@@ -97,6 +107,7 @@ namespace VirtualObjects
             newObject.transform.SetParent(anchor.transform);
             newObject.transform.localPosition = objectData.ParentRelPosition;
             newObject.transform.localRotation = objectData.ParentRelRotation;
+            newObject.transform.localScale = objectData.ParentRelScale;
             objectData.GameObject = newObject;
             objectData.Anchor = anchor;
         }

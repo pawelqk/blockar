@@ -10,6 +10,7 @@ namespace VirtualObjects
         private GameObject gameObject = null;
         private Vector3 parentRelPosition;
         private Quaternion parentRelRotation;
+        private Vector3 parentRelScale;
         private string[] materials = null;
         private ARAnchor anchor = null;
         private Transform anchorTransform = null;
@@ -25,10 +26,12 @@ namespace VirtualObjects
                 gameObject = value;
                 parentRelPosition = gameObject.transform.localPosition;
                 parentRelRotation = gameObject.transform.localRotation;
+                parentRelScale = gameObject.transform.localScale;
                 SetMaterials();
             }
         }
         public Vector3 ParentRelPosition { get => parentRelPosition; set => parentRelPosition = value; }
+        public Vector3 ParentRelScale { get => parentRelScale; set => parentRelScale = value; }
         public Quaternion ParentRelRotation { get => parentRelRotation; set => parentRelRotation = value; }
         public string[] Materials
         {
@@ -66,8 +69,8 @@ namespace VirtualObjects
 
         public override string ToString()
         {
-            return $"VirtualObjectData(guid={guid}, gameObjectId={gameObject?.GetInstanceID()}, pos={gameObject?.transform.position}, rot={gameObject?.transform.rotation}," +
-                $" localPos={parentRelPosition}, localRot={parentRelRotation}, materials={PrintUtils.PrintCollection(materials)}, anchor={anchor}," +
+            return $"VirtualObjectData(guid={guid}, gameObjectId={gameObject?.GetInstanceID()}, pos={gameObject?.transform.position}, rot={gameObject?.transform.rotation}, scale={gameObject?.transform.localScale}," +
+                $" localPos={parentRelPosition}, localRot={parentRelRotation}, localScale={parentRelScale}, materials={PrintUtils.PrintCollection(materials)}, anchor={anchor}," +
                 $" anchorTransformPos={anchorTransform?.position}, anchorTransformRot={anchorTransform?.rotation}, cloudAnchorId={cloudAnchorId}, parentingObject={parentingObject})";
         }
 
@@ -77,6 +80,7 @@ namespace VirtualObjects
                 Guid = dto.guid,
                 ParentRelPosition = new Vector3(dto.parentRelPosition.x, dto.parentRelPosition.y, dto.parentRelPosition.z),
                 ParentRelRotation = new Quaternion(dto.parentRelRotation.x, dto.parentRelRotation.y, dto.parentRelRotation.z, dto.parentRelRotation.w),
+                ParentRelScale = new Vector3(dto.parentRelScale.x, dto.parentRelScale.y, dto.parentRelScale.z),
                 materials = dto.materials,
                 CloudAnchorId = dto.cloudAnchorId,
             };
