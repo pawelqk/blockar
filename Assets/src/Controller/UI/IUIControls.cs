@@ -11,6 +11,9 @@ namespace Controller.UI
         void HideContextMenus();
         void HandlePlaneHold();
         void HandleTextureMenu();
+        void PlayObjectCreationSound();
+        void PlayObjectDeletionSound();
+        void PlayInvalidPlacementSound();
         void ShowShortTimeMsg(string msg);
         void Update();
         void PresentSessionsList(IList<string> sessions);

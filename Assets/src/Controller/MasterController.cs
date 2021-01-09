@@ -1,5 +1,4 @@
-﻿using Audio;
-using Controller.UI;
+﻿using Controller.UI;
 using Materials;
 using VirtualObjects;
 using UnityEngine;
@@ -41,9 +40,14 @@ namespace Controls
             uiControls.HandleGameObjectSelection(gameObject);
         }
 
+        public void HandleObjectCreation()
+        {
+            uiControls.PlayObjectCreationSound();
+        }
+
         public void HandleSelectedObjectDeletion()
         {
-            AudioManager.PlayAudioClip(AudioClips.CRACKLE);
+            uiControls.PlayObjectDeletionSound();
             virtualObjectsManager.DeleteSelectedObject();
         }
 
@@ -80,6 +84,7 @@ namespace Controls
 
         public void HandleObjectNotCreated()
         {
+            uiControls.PlayInvalidPlacementSound();
             uiControls.ShowShortTimeMsg("Object couldn't be created in that place");
         }
 

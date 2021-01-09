@@ -1,5 +1,4 @@
-﻿using Audio;
-using UnityEngine.XR.ARFoundation;
+﻿using UnityEngine.XR.ARFoundation;
 using VirtualObjects;
 
 namespace Controls
@@ -20,11 +19,10 @@ namespace Controls
             controller.HandleNonUITouch();
             if (!virtualObjectsManager.HandleNewObject(hit.pose))
             {
-                AudioManager.PlayAudioClip(AudioClips.PLACING_ERROR);
                 controller.HandleObjectNotCreated();
             }
             else
-                AudioManager.PlayAudioClip(AudioClips.KNOCK);
+                controller.HandleObjectCreation();
         }
 
         public void OnPlaneHold()

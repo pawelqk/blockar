@@ -5,6 +5,7 @@ namespace Controls
     public interface IController
     {
         void HandleObjectSelection(GameObject gameObject);
+        void HandleObjectCreation();
         void HandleSelectedObjectDeletion();
         void HandleSelectedObjectMaterialChange();
         void HandleEdgesClick();
