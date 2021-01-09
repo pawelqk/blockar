@@ -1,4 +1,5 @@
-﻿using Controller.UI;
+﻿using Audio;
+using Controller.UI;
 using Materials;
 using VirtualObjects;
 using UnityEngine;
@@ -42,6 +43,7 @@ namespace Controls
 
         public void HandleSelectedObjectDeletion()
         {
+            AudioManager.PlayAudioClip(AudioClips.CRACKLE);
             virtualObjectsManager.DeleteSelectedObject();
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Audio;
+using UnityEngine;
 using VirtualObjects;
 
 namespace Controls
@@ -19,8 +20,11 @@ namespace Controls
             controller.HandleNonUITouch();
             if (!virtualObjectsManager.HandleNewObject(hit))
             {
+                AudioManager.PlayAudioClip(AudioClips.PLACING_ERROR);
                 controller.HandleObjectNotCreated();
             }
+            else
+                AudioManager.PlayAudioClip(AudioClips.KNOCK);
         }
 
         public void OnVirtualObjectHold(RaycastHit hit)
