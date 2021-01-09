@@ -79,6 +79,12 @@ namespace VirtualObjects
             currentlySelected = null;
         }
 
+        public void SetCubeSize(int size)
+        {
+            virtualObjectsCreator.setCubeSize(size);
+        }
+        
+
         public GameObject GetCurrentlySelected()
         {
             return currentlySelected;

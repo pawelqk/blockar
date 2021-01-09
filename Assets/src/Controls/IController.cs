@@ -12,6 +12,7 @@ namespace Controls
         void HandleNonUITouch();
         void HandlePlaneHold();
         void HandleObjectNotCreated();
+        void HandleCubeSizeChange(int size);
         void SaveSesson(string sessionName);
         void RestoreSession(string sessionName);
         void GetAvailableSessions();

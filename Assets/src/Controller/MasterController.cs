@@ -30,6 +30,11 @@ namespace Controls
             virtualObjectsManager.InvalidateSelection();
         }
 
+        public void HandleCubeSizeChange(int size)
+        {
+            virtualObjectsManager.SetCubeSize(size);
+        }
+
         public void HandleObjectSelection(GameObject gameObject)
         {
             uiControls.HandleGameObjectSelection(gameObject);
