@@ -21,6 +21,8 @@ namespace Controls
             {
                 controller.HandleObjectNotCreated();
             }
+            else
+                controller.HandleObjectCreation();
         }
 
         public void OnPlaneHold()

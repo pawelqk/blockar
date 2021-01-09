@@ -40,8 +40,14 @@ namespace Controls
             uiControls.HandleGameObjectSelection(gameObject);
         }
 
+        public void HandleObjectCreation()
+        {
+            uiControls.PlayObjectCreationSound();
+        }
+
         public void HandleSelectedObjectDeletion()
         {
+            uiControls.PlayObjectDeletionSound();
             virtualObjectsManager.DeleteSelectedObject();
         }
 
@@ -78,6 +84,7 @@ namespace Controls
 
         public void HandleObjectNotCreated()
         {
+            uiControls.PlayInvalidPlacementSound();
             uiControls.ShowShortTimeMsg("Object couldn't be created in that place");
         }
 

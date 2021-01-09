@@ -1,4 +1,5 @@
-﻿using Controller.UI;
+﻿using Audio;
+using Controller.UI;
 using Controls;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,21 @@ namespace UI
         public void HandleGameObjectSelection(GameObject selectedGameObject)
         {
             this.selectionContextMenuUIHandler.HandleGameObjectSelection(selectedGameObject);
+        }
+
+        public void PlayObjectCreationSound()
+        {
+            AudioManager.PlayAudioClip(AudioClips.KNOCK);
+        }
+
+        public void PlayObjectDeletionSound()
+        {
+            AudioManager.PlayAudioClip(AudioClips.CRACKLE);
+        }
+
+        public void PlayInvalidPlacementSound()
+        {
+            AudioManager.PlayAudioClip(AudioClips.PLACING_ERROR);
         }
 
         public void HideContextMenus()
